@@ -9,3 +9,10 @@ const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
+    const controls = new OrbitControls( camera, renderer.domElement );
+
+    function animate() {
+        requestAnimationFrame( animate );
+        renderer.render( scene, camera );
+    };
+    animate();
