@@ -11,8 +11,15 @@ const scene = new THREE.Scene();
     document.body.appendChild( renderer.domElement );
     const controls = new OrbitControls( camera, renderer.domElement );
 
+    const geometry = new THREE.TorusGeometry( 1, 0.3, 16, 115 );
+    const material = new THREE.MeshLambertMaterial( { color: 0x9A7A48 } );
+    const torus = new THREE.Mesh( geometry, material );
+    scene.add( torus );
+
     function animate() {
         requestAnimationFrame( animate );
+        camera.position.x = 2;
+
         renderer.render( scene, camera );
     };
     animate();
