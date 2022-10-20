@@ -9,7 +9,12 @@ const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
+
     const controls = new OrbitControls( camera, renderer.domElement );
+
+    //add grid helper
+    const gridHelper = new THREE.GridHelper(200, 50);
+    scene.add(gridHelper);
 
     // add ambient light
     const ambientLight = new THREE.AmbientLight( 0xffffff, 0.5 );
@@ -20,14 +25,28 @@ const scene = new THREE.Scene();
     directionalLight.position.set( 2, 2, 0 );
     scene.add( directionalLight );
 
-    const geometry = new THREE.TorusGeometry( 1, 0.3, 16, 115 );
+    //add torus
+    const geometry = new THREE.TorusGeometry( 0.8, 0.3, 16, 115 );
     const material = new THREE.MeshLambertMaterial( { color: 0x9A7A48 } );
     const torus = new THREE.Mesh( geometry, material );
     scene.add( torus );
 
+    // add sphere
+    // load texture
+    const sphereGeometry = new THREE.SphereGeometry( 100, 32, 32 );
+    const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
+    sphereMaterial.side = THREE.BackSide;
+    const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    scene.add( sphere );
+
     function animate() {
         requestAnimationFrame( animate );
-        camera.position.x = 2;
+        camera.position.y = 10;
+
+        torus.position.x = 0;
+        torus.position.y = 0;
+
+        camera.lookAt(torus.position);
 
         renderer.render( scene, camera );
     };
