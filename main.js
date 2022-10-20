@@ -11,6 +11,15 @@ const scene = new THREE.Scene();
     document.body.appendChild( renderer.domElement );
     const controls = new OrbitControls( camera, renderer.domElement );
 
+    // add ambient light
+    const ambientLight = new THREE.AmbientLight( 0xffffff, 0.5 );
+    scene.add( ambientLight );
+
+    // add directional light
+    const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    directionalLight.position.set( 2, 2, 0 );
+    scene.add( directionalLight );
+
     const geometry = new THREE.TorusGeometry( 1, 0.3, 16, 115 );
     const material = new THREE.MeshLambertMaterial( { color: 0x9A7A48 } );
     const torus = new THREE.Mesh( geometry, material );
