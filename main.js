@@ -22,8 +22,12 @@ const scene = new THREE.Scene();
 
     // add directional light
     const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-    directionalLight.position.set( 2, 2, 0 );
+    directionalLight.position.set( 5, 15, 10 );
     scene.add( directionalLight );
+
+    // add direfcional light helper
+    const directionalLightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+    scene.add( directionalLightHelper );
 
     //add torus
     const geometry = new THREE.TorusGeometry( 0.8, 0.3, 16, 115 );
@@ -32,16 +36,20 @@ const scene = new THREE.Scene();
     scene.add( torus );
 
     // add sphere
-    // load texture
     const sphereGeometry = new THREE.SphereGeometry( 100, 32, 32 );
     const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
     sphereMaterial.side = THREE.BackSide;
     const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
     scene.add( sphere );
 
+    const cylinderGeometry = new THREE.CylinderGeometry( 10, 10, 0.2, 100 );
+    const cylinderMaterial = new THREE.MeshLambertMaterial( {color: 0xfff1ce} );
+    const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+    scene.add( cylinder );
+
     function animate() {
         requestAnimationFrame( animate );
-        camera.position.y = 10;
+        camera.position.y = 8;
 
         torus.position.x = 0;
         torus.position.y = 0;
