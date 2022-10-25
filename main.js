@@ -12,7 +12,7 @@ const scene = new THREE.Scene();
 
     const controls = new OrbitControls( camera, renderer.domElement );
 
-    //add grid helper
+    //add grid HELPER
     const gridHelper = new THREE.GridHelper(200, 50);
     scene.add(gridHelper);
 
@@ -22,26 +22,81 @@ const scene = new THREE.Scene();
 
     // add directional light
     const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-    directionalLight.position.set( 5, 15, 10 );
+    directionalLight.position.set( 8, 15, 10 );
     scene.add( directionalLight );
 
     // add direfcional light helper
     const directionalLightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
     scene.add( directionalLightHelper );
 
-    //add torus
-    const geometry = new THREE.TorusGeometry( 0.8, 0.3, 16, 115 );
-    const material = new THREE.MeshLambertMaterial( { color: 0x9A7A48 } );
-    const torus = new THREE.Mesh( geometry, material );
-    scene.add( torus );
+    //add HOUSE
 
-    // add sphere
+    //load texture
+    const texture = new THREE.TextureLoader().load( "/textures/wall.png" );
+
+    //add house box
+    const boxGeometry = new THREE.BoxGeometry( 8, 5, 5);
+    const boxMaterial = new THREE.MeshLambertMaterial( { color: 0xebd7c2, side: THREE.DoubleSide } );
+    boxMaterial.map = texture;
+    const box = new THREE.Mesh( boxGeometry, boxMaterial );
+    box.position.x = 0;
+    box.position.y = 0.5;
+    scene.add( box );
+
+    //add roof
+    const shape = new THREE.Shape();
+
+    shape.moveTo( 0, 3);
+    shape.lineTo( 3, 2);
+    shape.lineTo( -3,  2);
+
+    const TriangleGeometry = new THREE.ShapeGeometry(shape);
+    const Triangle = new THREE.Mesh( TriangleGeometry, boxMaterial );
+    Triangle.position.x = 4;
+    Triangle.position.y = 1;
+    Triangle.rotation.y = Math.PI / 2;
+    scene.add( Triangle );
+
+    const Triangle2 = new THREE.Mesh( TriangleGeometry, boxMaterial );
+    Triangle2.position.x = -4;
+    Triangle2.position.y = 1;
+    Triangle2.rotation.y = Math.PI / 2;
+    scene.add( Triangle2 );
+
+    //roof planes
+    const planeGeometry = new THREE.PlaneGeometry( 8, 6);
+    const planeMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+    const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+    plane.position.x = 0;
+    plane.position.y =3;
+    plane.rotation.x = Math.PI / 2;
+    scene.add( plane );
+
+    const rooftexture = new THREE.TextureLoader().load( "/textures/roof.jpg" );
+
+    const planeGeometry2 = new THREE.PlaneGeometry( 8.5, 3.18);
+    planeMaterial.map = rooftexture;
+    const RoofPane1 = new THREE.Mesh( planeGeometry2, planeMaterial );
+    RoofPane1.position.z = 1.5;
+    RoofPane1.position.y = 3.5;
+    RoofPane1.rotation.x = 1.8925;
+    scene.add( RoofPane1 );
+
+    const planeGeometry3 = new THREE.PlaneGeometry( 8.5, 3.18);
+    const RoofPane2 = new THREE.Mesh( planeGeometry3, planeMaterial );
+    RoofPane2.position.z = -1.5;
+    RoofPane2.position.y = 3.5;
+    RoofPane2.rotation.x = -1.8925;
+    scene.add( RoofPane2 );
+
+    // add BACKGROUND
     const sphereGeometry = new THREE.SphereGeometry( 100, 32, 32 );
     const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
     sphereMaterial.side = THREE.BackSide;
     const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
     scene.add( sphere );
 
+    // add cilinder GROUND
     const cylinderGeometry = new THREE.CylinderGeometry( 10, 10, 0.2, 100 );
     const cylinderMaterial = new THREE.MeshLambertMaterial( {color: 0xfff1ce} );
     const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
@@ -51,10 +106,7 @@ const scene = new THREE.Scene();
         requestAnimationFrame( animate );
         camera.position.y = 8;
 
-        torus.position.x = 0;
-        torus.position.y = 0;
-
-        camera.lookAt(torus.position);
+        camera.lookAt(box.position);
 
         renderer.render( scene, camera );
     };
