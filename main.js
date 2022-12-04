@@ -14,15 +14,15 @@ const scene = new THREE.Scene();
     const controls = new OrbitControls( camera, renderer.domElement );
 
     //add grid HELPER
-    const gridHelper = new THREE.GridHelper(200, 50);
-    scene.add(gridHelper);
+    // const gridHelper = new THREE.GridHelper(200, 50);
+    // scene.add(gridHelper);
 
     // add ambient light
-    const ambientLight = new THREE.AmbientLight( 0xffffff, 0.5 );
+    const ambientLight = new THREE.AmbientLight( 0xf3e7d3, .90);
     scene.add( ambientLight );
 
     // add directional light
-    const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    const directionalLight = new THREE.DirectionalLight( 0xf3e7d3, .75 );
     directionalLight.position.set( 8, 15, 10 );
     scene.add( directionalLight );
 
@@ -144,20 +144,42 @@ const scene = new THREE.Scene();
 
     // add 10 islands randomly
     for (let i = 0; i < 10; i++) {
-        addIsland(Math.random() * 200 - 100, Math.random() * 200 - 100, Math.random() * 200 - 100, Math.random() * 10, Math.random() * 2 * Math.PI);
+        addIsland(
+            Math.random() * 200 - 100, 
+            Math.random() * 200 - 100, 
+            Math.random() * 200 - 100, 
+            Math.random() * 8 + 2, 
+            Math.random() * 2 * Math.PI
+        );
     }
 
+    // add self-portrait on back of house
+    const portraittexture = new THREE.TextureLoader().load( "/objects/elien.png" );
+
+    const portraitGeometry = new THREE.PlaneGeometry( 2, 2);
+    const portraitMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+    portraitMaterial.map = portraittexture;
+    portraitMaterial.map.flipY = false;
+    const portrait = new THREE.Mesh( portraitGeometry, portraitMaterial );
+    portrait.position.x = -4.1;
+    portrait.position.y = 1.5;
+    portrait.position.z = 0;
+    portrait.rotateY( Math.PI / 2 );
+    portrait.rotateZ( Math.PI);
+    scene.add( portrait );
 
     // add BACKGROUND
-    const sphereGeometry = new THREE.SphereGeometry( 140, 32, 32 );
+    const spheretexture = new THREE.TextureLoader().load( "/textures/sky.jpg" );
+
+    const sphereGeometry = new THREE.SphereGeometry( 160, 32, 32 );
     const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
+    sphereMaterial.map = spheretexture;
     sphereMaterial.side = THREE.BackSide;
     const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
     scene.add( sphere );
 
     function animate() {
         requestAnimationFrame( animate );
-
 
         camera.lookAt(box.position);
 
