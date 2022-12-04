@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.set(12, 3, 8);
+    camera.position.set(15, 5, 10);
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -22,7 +22,7 @@ const scene = new THREE.Scene();
     scene.add( ambientLight );
 
     // add directional light
-    const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
     directionalLight.position.set( 8, 15, 10 );
     scene.add( directionalLight );
 
@@ -113,6 +113,19 @@ const scene = new THREE.Scene();
     window1.rotateZ( Math.PI / 2 );
     scene.add( window1 );
 
+    // add tree-island around the house
+    const loader = new GLTFLoader();
+    loader.load( '/objects/tree_island.gltf', function ( island ) {
+        island.scene.position.x = 0;
+        island.scene.position.y = 0;
+        island.scene.position.z = -3;
+        island.scene.scale.set(10, 10, 10);
+        island.scene.rotateY( Math.PI / 2 );
+        scene.add( island.scene );
+    }, undefined, function ( error ) {
+        console.error( error );
+    } );
+
     // add BACKGROUND
     const sphereGeometry = new THREE.SphereGeometry( 100, 32, 32 );
     const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
@@ -121,10 +134,10 @@ const scene = new THREE.Scene();
     scene.add( sphere );
 
     // add cilinder GROUND
-    const cylinderGeometry = new THREE.CylinderGeometry( 10, 10, 0.2, 100 );
-    const cylinderMaterial = new THREE.MeshLambertMaterial( {color: 0xfff1ce} );
-    const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
-    scene.add( cylinder );
+    // const cylinderGeometry = new THREE.CylinderGeometry( 10, 10, 0.2, 100 );
+    // const cylinderMaterial = new THREE.MeshLambertMaterial( {color: 0xd4f273} );
+    // const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
+    // scene.add( cylinder );
 
     function animate() {
         requestAnimationFrame( animate );
