@@ -27,8 +27,8 @@ const scene = new THREE.Scene();
     scene.add( directionalLight );
 
     // add direfcional light helper
-    const directionalLightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
-    scene.add( directionalLightHelper );
+    // const directionalLightHelper = new THREE.DirectionalLightHelper( directionalLight, 5 );
+    // scene.add( directionalLightHelper );
 
     //add HOUSE
 
