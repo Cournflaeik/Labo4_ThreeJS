@@ -126,18 +126,34 @@ const scene = new THREE.Scene();
         console.error( error );
     } );
 
+    // add funcion for adding islands randomly
+    function addIsland(x, y, z, scale, rotation) {
+        loader.load( '/objects/tree_island.gltf', function ( gltf ) {
+            const island = gltf.scene;
+            island.position.x = x;
+            island.position.y = y;
+            island.position.z = z;
+            island.scale.set(scale, scale, scale);
+            island.rotateY( rotation );
+        scene.add( island );
+        }, undefined, function ( error ) {
+            console.error( error );
+            } 
+        );
+    }
+
+    // add 10 islands randomly
+    for (let i = 0; i < 10; i++) {
+        addIsland(Math.random() * 200 - 100, Math.random() * 200 - 100, Math.random() * 200 - 100, Math.random() * 10, Math.random() * 2 * Math.PI);
+    }
+
+
     // add BACKGROUND
-    const sphereGeometry = new THREE.SphereGeometry( 100, 32, 32 );
+    const sphereGeometry = new THREE.SphereGeometry( 140, 32, 32 );
     const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
     sphereMaterial.side = THREE.BackSide;
     const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
     scene.add( sphere );
-
-    // add cilinder GROUND
-    // const cylinderGeometry = new THREE.CylinderGeometry( 10, 10, 0.2, 100 );
-    // const cylinderMaterial = new THREE.MeshLambertMaterial( {color: 0xd4f273} );
-    // const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
-    // scene.add( cylinder );
 
     function animate() {
         requestAnimationFrame( animate );
