@@ -5,7 +5,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    
+    camera.position.set(12, 3, 8);
+
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
@@ -35,12 +36,12 @@ const scene = new THREE.Scene();
     const texture = new THREE.TextureLoader().load( "/textures/wall.png" );
 
     //add house box
-    const boxGeometry = new THREE.BoxGeometry( 8, 5, 5);
+    const boxGeometry = new THREE.BoxGeometry( 8, 3, 5);
     const boxMaterial = new THREE.MeshLambertMaterial( { color: 0xebd7c2, side: THREE.DoubleSide } );
     boxMaterial.map = texture;
     const box = new THREE.Mesh( boxGeometry, boxMaterial );
     box.position.x = 0;
-    box.position.y = 0.5;
+    box.position.y = 1.5;
     scene.add( box );
 
     //add roof
@@ -89,6 +90,29 @@ const scene = new THREE.Scene();
     RoofPane2.rotation.x = -1.8925;
     scene.add( RoofPane2 );
 
+    //add door
+    const doorGeometry = new THREE.BoxGeometry( 1, 2, 0.1);
+    const doorMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+    doorMaterial.map = rooftexture;
+    const door = new THREE.Mesh( doorGeometry, doorMaterial );
+    door.position.x = 4;
+    door.position.y = 1.1;
+    door.position.z = -.7;
+    door.rotateY( Math.PI / 2 );
+    scene.add( door );
+
+    //add window1
+    const window1Geometry = new THREE.BoxGeometry( 1, 1, 0.1);
+    const window1Material = new THREE.MeshLambertMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+    window1Material.map = rooftexture;
+    const window1 = new THREE.Mesh( window1Geometry, window1Material );
+    window1.position.x = 4;
+    window1.position.y = 2;
+    window1.position.z = 1;
+    window1.rotateY( Math.PI / 2 );
+    window1.rotateZ( Math.PI / 2 );
+    scene.add( window1 );
+
     // add BACKGROUND
     const sphereGeometry = new THREE.SphereGeometry( 100, 32, 32 );
     const sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xb2b0bd } );
@@ -104,7 +128,7 @@ const scene = new THREE.Scene();
 
     function animate() {
         requestAnimationFrame( animate );
-        camera.position.y = 8;
+
 
         camera.lookAt(box.position);
 
